@@ -18,6 +18,7 @@ import java.util.concurrent.Semaphore;
  */
 public class SemaphoreDemo {
     private Semaphore smp = new Semaphore(2);
+    private String outer = "outer";
     private Random rnd = new Random();
 
     public static void main(String[] args) {
@@ -27,7 +28,7 @@ public class SemaphoreDemo {
         Runnable rb = demo.new TaskDemo("b");
         Runnable rc = demo.new TaskDemo("c");
         Runnable rd = demo.new TaskDemo("d");
-        Runnable re= demo.new TaskDemo("e");
+        Runnable re = demo.new TaskDemo("e");
         Runnable rf = demo.new TaskDemo("f");
         Runnable rg = demo.new TaskDemo("g");
         Runnable rh = demo.new TaskDemo("h");
@@ -43,15 +44,18 @@ public class SemaphoreDemo {
     }
     class TaskDemo implements Runnable {
 
+        private String outer = "inner";
         private String id;
 
         public TaskDemo(String id) {
+            System.out.println("===init:"+SemaphoreDemo.this);
             this.id = id;
         }
 
         @Override
         public void run() {
             try {
+                System.out.println(SemaphoreDemo.this.outer);
                 smp.acquire();
                 System.out.println("Thread " + id + " is working");
                 Thread.sleep(rnd.nextInt(1000));

@@ -19,7 +19,7 @@ import java.util.concurrent.Semaphore;
 public class Code1114 {
     public static void main(String[] args) {
         //Foo foo = new Foo();
-        FooThree foo = new FooThree();
+        Foo foo = new Foo();
         ExecutorService executorService = Executors.newCachedThreadPool();
         Runnable aR = () -> {
             System.out.println("one");
@@ -89,7 +89,9 @@ class Foo {
 
     public void first(Runnable printFirst) throws InterruptedException {
         synchronized (obj){
+            Thread.sleep(10000);
             while (flag!=0){
+                System.out.println("first===wait===");
                 obj.wait();
             }
             // printFirst.run() outputs "first". Do not change or remove this line.
@@ -103,6 +105,7 @@ class Foo {
     public void second(Runnable printSecond) throws InterruptedException {
         synchronized (obj){
             while (flag!=1){
+                System.out.println("second===wait===");
                 obj.wait();
             }
             // printSecond.run() outputs "second". Do not change or remove this line.
@@ -116,6 +119,7 @@ class Foo {
     public void third(Runnable printThird) throws InterruptedException {
         synchronized (obj){
             while (flag!=2){
+                System.out.println("third===wait===");
                 obj.wait();
             }
             // printThird.run() outputs "third". Do not change or remove this line.
